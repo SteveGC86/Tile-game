@@ -67,6 +67,13 @@ class App extends React.Component {
         }
       }) 
     }
+    if(this.state.misclick === 9) {
+      this.setState(() => {
+        return {
+          gameState: 'post'
+        }
+      })
+    }
   }
 
     timer = async () => {
@@ -80,14 +87,22 @@ class App extends React.Component {
       let interval = 1500 - 250 * this.state.level 
       setTimeout(this.randomBox, interval)
       setTimeout(reset, interval)
-      setTimeout(this.timer, interval)
+      setTimeout(this.timer, interval) 
     }
 
     componentDidMount() {
       this.timer()
     }
 
+    startGame = () => {
+      this.setState(() => {
+        return {
+          gameState: "game"
+        }
+      })
+    }
 
+    
   
 
   render() {
@@ -97,7 +112,7 @@ class App extends React.Component {
           <Environment score={this.state.score} level={this.state.level} misclick={this.state.misclick} />
         </div>
         <div className="game">
-          <Game boxes={this.state.boxes} gameState={this.state.gameState} clickBox={this.clickBox}/>
+          <Game boxes={this.state.boxes} gameState={this.state.gameState} clickBox={this.clickBox} startGame={this.startGame} score={this.state.score}/>
         </div>
         <div className="score">
           <Score scoreBoardData={this.state.scoreBoardData} />
