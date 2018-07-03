@@ -6,9 +6,7 @@ import Environment from './components/Environment'
 import './App.css';
 
 class App extends React.Component {
-  componentDidMount() {
-    setInterval(this.randomBox, 1000)
-  }
+  
 
   state = {
     gameState: "pre",
@@ -24,9 +22,7 @@ class App extends React.Component {
 
   randomBox = () => {
     const randomNumber =  Math.floor(Math.random() * 400)
-    console.log(randomNumber)
     const highlightedBox = this.state.highlightedBox
-    console.log("highlighted Box", highlightedBox);
     this.setState((prevState) => {
       return {
         boxes: prevState.boxes.map((current, index) => {
@@ -45,9 +41,40 @@ class App extends React.Component {
         }
       })
     }
-  
 
-    
+    clickBox = (boxActive) => {
+      if(boxActive === true) {
+        this.setState((prevState) => {
+          return {
+            score: prevState.score +1
+          }
+        }) 
+    }
+    if(this.state.score % 10 === 0) {
+      this.setState((prevState) =>{
+        return {
+          level: this.state.score === prevState.score ? prevState.level : prevState.level +1
+        }
+      })
+    }
+    if(boxActive === false) {
+      this.setState((prevState) => {
+        return {
+          misclick: prevState.misclick +1
+        }
+      }) 
+    }
+  }
+
+    timer = async () => {
+      let interval = 1500 - 250 * this.state.level 
+      await setTimeout(this.randomBox, interval)
+      this.timer()
+    }
+
+    componentDidMount() {
+      this.timer()
+    }
 
 
   
@@ -59,7 +86,7 @@ class App extends React.Component {
           <Environment score={this.state.score} level={this.state.level} misclick={this.state.misclick} />
         </div>
         <div className="game">
-          <Game boxes={this.state.boxes} gameState={this.state.gameState}/>
+          <Game boxes={this.state.boxes} gameState={this.state.gameState} clickBox={this.clickBox}/>
         </div>
         <div className="score">
           <Score scoreBoardData={this.state.scoreBoardData} />

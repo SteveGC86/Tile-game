@@ -68,3 +68,13 @@
   height: 30px;
   border-width: 1px 1px 1px 1px;
 }
+
+.active {
+ background-color: blue; 
+ height: 100%;
+}
+
+.non-Active {
+  background-color: red; 
+  height: 100%;
+ }

@@ -8,7 +8,7 @@ class Game extends React.Component {
       <div className="game">
 
           {this.props.boxes.map(box => {
-            return <Box active={box.active} />
+            return <Box active={box.active} clickBox={this.props.clickBox}/>
           })}
 
         <button className="start">Start</button>
