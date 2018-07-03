@@ -18,6 +18,7 @@ class App extends React.Component {
     level: 0,
     misclick: 0,
     scoreBoardData: [],
+    clicked: false
   }
 
   randomBox = () => {
@@ -43,10 +44,11 @@ class App extends React.Component {
     }
 
     clickBox = (boxActive) => {
-      if(boxActive === true) {
+      if(boxActive === true && this.state.clicked === false) {
         this.setState((prevState) => {
           return {
-            score: prevState.score +1
+            score: prevState.score +1,
+            clicked: true
           }
         }) 
     }
@@ -57,19 +59,28 @@ class App extends React.Component {
         }
       })
     }
-    if(boxActive === false) {
+    if(boxActive === false && this.state.clicked === false) {
       this.setState((prevState) => {
         return {
-          misclick: prevState.misclick +1
+          misclick: prevState.misclick +1,
+          clicked: true
         }
       }) 
     }
   }
 
     timer = async () => {
+      const reset = () =>{
+        this.setState(() => {
+          return {
+            clicked: false
+          }
+        })
+      }
       let interval = 1500 - 250 * this.state.level 
-      await setTimeout(this.randomBox, interval)
-      this.timer()
+      setTimeout(this.randomBox, interval)
+      setTimeout(reset, interval)
+      setTimeout(this.timer, interval)
     }
 
     componentDidMount() {
