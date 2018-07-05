@@ -3,8 +3,10 @@ import React from 'react'
 class Score extends React.Component {
   render() {
     return (
-      <div className="Score">
-      <h3>ScoreBoard</h3>
+      <div>
+        <h3>Name: {this.props.data.name}</h3>
+        <span/>
+        <h3>Score: {this.props.data.score}</h3>
       </div>
     ) 
   }
